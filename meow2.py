@@ -1,0 +1,40 @@
+f=open('C:\\Users\\MEGAPOLIS\\Desktop\\books.txt', encoding='utf8')
+a=f.readlines()
+shapka=a.pop(0)
+for i in range(len(a)):
+    a[i]=a[i].strip().split('%')
+    a[i][0] = int(a[i][0])
+for x in a:
+    x[5]=x[5].replace(',','.')
+    x[5]=(float(x[5]))
+shapka=shapka.strip().split('%')
+a1=[]
+a2=a
+d={}
+for x in a:
+    if x[2] not in a1:
+        a1.append(x[2])
+for i in range(len(a)):
+    author = a[i][2]
+    rate=a[i][5]
+    if author not in d:
+        d[author]=[rate]
+    else:
+        d[author]+=[rate]
+for author in d:
+    d[author]=round((sum(d[author])/len(d[author])),2)
+a3=[]
+for i in range(len(a1)):
+    a3.append([a1[i],d[a1[i]]])
+mn=1000
+for x in a3:
+    if x[1]<mn:
+        mn=min(mn,x[1])
+for x in a3:
+    if x[1]==mn:
+        print(f'“{x[0]} - {x[1]}”')
+f=open('books_new.csv','w', encoding='utf8')
+f.writelines('authors, ratings_authors\n')
+for x in a3:
+    f.writelines((str(x))+'\n')
+f.close()
